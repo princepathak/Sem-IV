@@ -78,7 +78,18 @@ class Tree{
 			else{
 				return 0;
 			}
-		}	
+		}
+		if(check_tree_identical(tree1->left,tree2->left)){
+				if(check_tree_identical(tree1->right,tree2->right)){
+					return 1;
+				}
+			}
+			else{
+				return 0;
+			}
+	}
+	void mirror_image(Tree_node* tree1,Tree_node* tree2){
+		
 	}
 	
 	int check_tree_structure(Tree_node* tree1,Tree_node* tree2){
