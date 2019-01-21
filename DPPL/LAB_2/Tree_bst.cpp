@@ -15,7 +15,7 @@ class Tree{
     public:
     Tree(){}
     Tree_node *root=NULL;
-    Tree_node* create_node(int key){ //creates a node.
+    static Tree_node* create_node(int key){ //creates a node.
         Tree_node *temp=new Tree_node;
         temp->key=key;
         temp->left=NULL;
@@ -23,7 +23,7 @@ class Tree{
         cout<<"new key "<<temp->key<<endl;
         return temp;
     }
-   Tree_node* Tree_creation(Tree_node* temp1){
+    static Tree_node* Tree_creation(Tree_node* temp1){
         int T,value;
         cout<<"Enter the Value of  node\n";
         cin>>value;
@@ -37,7 +37,7 @@ class Tree{
         }
         return temp1;
     }
-    Tree_node* insert(int data,Tree_node * root){
+    static Tree_node* insert(int data,Tree_node * root){
         if(root==NULL){
             root=create_node(data);
         }
@@ -51,7 +51,7 @@ class Tree{
         }
         return root;
     }   
-    void Tree_Traversal(Tree_node* temp2){ //traverses a tree and print the key of a node.
+    static void Tree_Traversal(Tree_node* temp2){ //traverses a tree and print the key of a node.
         if(temp2==NULL){
             return;
         }
@@ -62,7 +62,7 @@ class Tree{
         return;
     }
 	
-	int check_tree_identical(Tree_node* tree1,Tree_node* tree2){
+	static int check_tree_identical(Tree_node* tree1,Tree_node* tree2){
 		if(tree1 == NULL && tree2 == NULL)
 			return 1;
 		else if(tree1 == NULL && tree2 != NULL)
@@ -88,11 +88,20 @@ class Tree{
 				return 0;
 			}
 	}
-	void mirror_image(Tree_node* tree1,Tree_node* tree2){
-		
+	static void mirror_image(Tree_node* parent){
+		if(parent!=NULL){
+			Tree_node* temp=parent->left;
+			parent->left=parent->right;
+			parent->right=temp;
+			mirror_image(parent->left);
+			mirror_image(parent->right);
+			return;
+		}
+		else
+			return;
 	}
 	
-	int check_tree_structure(Tree_node* tree1,Tree_node* tree2){
+	static int check_tree_structure(Tree_node* tree1,Tree_node* tree2){
 	if(tree1 == NULL && tree2 == NULL){
 		return 1;
 	}
@@ -112,6 +121,7 @@ class Tree{
 			return 0;
 		}
 	}
+
 }
 	
 };
@@ -122,30 +132,27 @@ int main(){
     cin>>n;
     for(int i=0;i<n;i++){
         cin>>data;
-        t1.root=t1.insert(data,t1.root);
+        t1.root=Tree::insert(data,t1.root);
     }
 	cout<<"\n\n\n\n";
 	cout<<"Enter number of the nodes in tree"<<endl;
     cin>>n;
     for(int i=0;i<n;i++){
         cin>>data;
-        t2.root=t2.insert(data,t2.root);
+        t2.root=Tree::insert(data,t2.root);
     }
-	
     cout<<"\n\n\n\n";
-    t1.Tree_Traversal(t1.root);
-	t2.Tree_Traversal(t2.root);
-	if(t1.check_tree_identical(t1.root,t2.root)){
+    Tree::Tree_Traversal(t1.root);
+	Tree::Tree_Traversal(t2.root);
+	if(Tree::check_tree_identical(t1.root,t2.root))
 		cout<<"The trees are identical\n";
-	}
-	else{
+	else
 		cout<<"Trees are not identical\n";
-	}
-	if(t1.check_tree_structure(t1.root,t2.root)){
-		cout<<"Tree is structurally identical\n";
-	}   
-	else{
+	if(Tree::check_tree_structure(t1.root,t2.root))
+		cout<<"Tree is structurally identical\n"; 
+	else
 		cout<<"Tree is not sturcturally identical\n";
-	}
+	Tree::mirror_image(t1.root);
+	Tree::Tree_Traversal(t1.root);
 	return 0;
 }
