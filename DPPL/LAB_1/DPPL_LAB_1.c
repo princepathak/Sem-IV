@@ -99,11 +99,23 @@ struct Node* intersection(struct Node* S,struct Node * T){
 
 struct Node* difference(struct Node *S,struct Node *T){
     struct Node* Head=NULL;
-    while(S!=NULL){
-        if(is_element_of(S->data,T)){
-            Head=add(S->data,Head);
+    int size_SET1=size(S);
+    int size_SET2=size(T);
+    if(size_SET1<=size_SET2){
+        while(S!=NULL){
+            if(is_element_of(S->data,T)){
+                Head=add(S->data,Head);
+            }
+            S=S->next;
         }
-        S=S->next;
+    }
+    else{
+        while(T!=NULL){
+            if(is_element_of(T->data,S)){
+               Head=add(T->data,Head);
+           }
+           T=T->next;
+        }
     }
     return Head;
 }
