@@ -97,8 +97,8 @@ struct Node* intersection(struct Node* S,struct Node * T){
     return Head;
 }
 
-struct Node* difference(struct Node* S,struct Node *T){
-    struct Node* Head;
+struct Node* difference(struct Node *S,struct Node *T){
+    struct Node* Head=NULL;
     while(S!=NULL){
         if(is_element_of(S->data,T)){
             Head=add(S->data,Head);
@@ -143,8 +143,7 @@ printf("\n");
 S_intersection_P=intersection(S,P);
 print(S_intersection_P);
 printf("\n");
-
-S_difference_P=difference(S,P);
+S_difference_P=difference(P,S);
 print(S_difference_P);
 printf("\n");
 

@@ -64,7 +64,7 @@ void quickSort(int arr[], int low, int high)
       ptr1 = fopen(argv[1], "r") ;
       ptr2=fopen(argv[2],"w");  
       fseek(ptr1,0L,SEEK_END);
-      int size=ftell(ptr1)/4.899;
+      int size=ftell(ptr1)/5.8;
 	  printf("%d\n",size);
       rewind(ptr1);
 	  int i=0;
