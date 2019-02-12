@@ -7,6 +7,12 @@ struct Node
     int data;
     struct Node *next;
 };
+
+struct set
+{
+    struct Node * a[MAX];
+};
+
 int hashfunc(int value){
     int index =value%20;
     return index;
@@ -175,10 +181,17 @@ srand(time(0));
 for(int i=0;i<10;i++){
     a[i]=rand()%100+1;
 }
-struct Node * S[MAX]={NULL},* P[MAX]={NULL},* S_union_P[MAX]={NULL},* S_intersection_P[MAX]={NULL},*S_difference_P[MAX]={NULL};
-build(a,10,S);
+struct set S,P,S_Union_P,S_Intersection_P,P_difference_S;
+for(int i=0;i<MAX;i++){
+    S.a[i]=NULL;
+    P.a[i]=NULL;
+    S_Union_P.a[i]=NULL;
+    S_Intersection_P.a[i]=NULL;
+    P_difference_S.a[i]=NULL;
+}
+build(a,10,S.a);
 printf("S:- ");
-print(S);
+print(S.a);
 printf("\n");
 
 int b[15]; 
@@ -186,25 +199,25 @@ srand(time(NULL));
 for(int i=0;i<15;i++){
     b[i]=rand()%100+1;
 }
-build(b,15,P);
+build(b,15,P.a);
 printf("P:- ");
-print(P);
+print(P.a);
 printf("\n");
 
-Union(S,P,S_union_P);
+Union(S.a,P.a,S_Union_P.a);
 printf("Union:- ");
-print(S_union_P);
+print(S_Union_P.a);
 printf("\n");
 
-intersection(S,P,S_intersection_P);
+intersection(S.a,P.a,S_Intersection_P.a);
 printf("Intersection:- ");
-print(S_intersection_P);
+print(S_Intersection_P.a);
 printf("\n");
 
-difference(P,S,S_difference_P);
+difference(P.a,S.a,P_difference_S.a);
 printf("Difference:- ");
-print(S_difference_P);
+print(P_difference_S.a);
 printf("\n");
 
-printf("S is subset of P %d",subset(S,P));
+printf("S is subset of P %d",subset(S.a,P.a));
 }
