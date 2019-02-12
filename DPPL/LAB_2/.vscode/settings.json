@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "iostream": "cpp"
+    },
+    "terminal.integrated.copyOnSelection": true,
+    "terminal.integrated.cursorBlinking": true,
+    "terminal.integrated.cursorStyle": "line"
+}

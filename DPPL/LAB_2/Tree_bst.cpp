@@ -123,7 +123,93 @@ class Tree{
 	}
 
 }
-	
+static void print(Tree_node* parent,int i){
+	if(parent == NULL){
+		return;
+	}	
+	print(parent->right,i+1);
+	for(int x=0;x<i;x++){
+		cout<<"\t";
+	}
+	cout<<parent->key<<"\n";	
+	print(parent->left,i+1);
+}
+static int  sum_root(Tree_node *parent,int sum){
+	if(parent==NULL){
+		if(sum==0){
+			return 1;
+		}
+		return 0;
+	}
+	return sum_root(parent->left,sum-parent->key) || sum_root(parent->right,sum-parent->key);
+}
+static int check_bst(Tree_node * parent){
+	if(parent==NULL)
+		return 1;
+	if(parent->left!=NULL){
+		if(parent->key<parent->left->key)
+			return 0;
+	}
+	if(parent->right!=NULL){
+		if(parent->key>parent->right->key)
+			return 0;
+	}
+	return check_bst(parent->left) && check_bst(parent->right);
+}
+void print_path(int value,Tree_node *parent){
+	if(parent->key == value){
+		printf("%d",parent->key);
+		return;
+	}
+	else{
+		if(value<parent->key){
+			printf("%d->",parent->key);
+			print_path(value,parent->left);
+		}
+		else{
+			printf("%d->",parent->key);
+			print_path(value,parent->right);
+		}
+	}
+}
+void traverse(Tree_node *parent,Tree_node *parent1){
+	if(parent==NULL)
+		return;
+	else if(parent->left ==NULL &&parent->right==NULL){
+		print_path(parent->key,parent1);
+		printf("\n");
+		return;
+	}
+	else if(parent->left ==NULL &&parent->right!=NULL)
+		traverse(parent->right,parent1);
+	else if(parent->left !=NULL &&parent->right==NULL)
+		traverse(parent->left,parent1);
+	else{
+		traverse(parent->left,parent1);
+		traverse(parent->right,parent1);
+	}
+	return;
+}	
+	static int no_of_struct(int n){
+		if(n==0||n==1){
+			return 1;
+		}
+		int c = 0;
+		for( int i = 0 ; i < n ; i++ ){
+			c = c + no_of_struct(i)*no_of_struct(n - 1- i);
+		}
+		return c;
+	}
+	static int count(Tree_node * parent){
+		if(parent==NULL)
+			return 0;
+		int sum =0;
+		if(parent->left!=NULL)
+			sum++;
+		if(parent->right!=NULL)
+			sum++;
+		return sum + count(parent->right) + count(parent->left);
+	}
 };
 int main(){
     Tree t1,t2;
@@ -135,6 +221,7 @@ int main(){
         t1.root=Tree::insert(data,t1.root);
     }
 	cout<<"\n\n\n\n";
+	
 	cout<<"Enter number of the nodes in tree"<<endl;
     cin>>n;
     for(int i=0;i<n;i++){
@@ -142,8 +229,8 @@ int main(){
         t2.root=Tree::insert(data,t2.root);
     }
     cout<<"\n\n\n\n";
-    Tree::Tree_Traversal(t1.root);
-	Tree::Tree_Traversal(t2.root);
+	Tree::print(t1.root,0);
+	Tree::print(t2.root,0);
 	if(Tree::check_tree_identical(t1.root,t2.root))
 		cout<<"The trees are identical\n";
 	else
@@ -153,6 +240,22 @@ int main(){
 	else
 		cout<<"Tree is not sturcturally identical\n";
 	Tree::mirror_image(t1.root);
-	Tree::Tree_Traversal(t1.root);
+	Tree::print(t1.root,0);
+	cout<<"\n";
+	if(Tree::check_bst(t2.root)){
+		printf("Tree is BST\n");
+	}
+	else{
+		printf("Tree is not BST\n");
+	}
+	t1.traverse(t2.root,t2.root);
+	if(Tree::sum_root(t2.root,35)){
+		printf("Such leaf exist");
+	}
+	else{
+		printf("Such Leaf does not exist");
+	}
+	printf("\nNo. of possible bst for the given tree is %d",Tree::no_of_struct(Tree::count(t2.root)));
 	return 0;
+	
 }
