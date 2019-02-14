@@ -1,4 +1,5 @@
 #include<iostream>
+#include<stdlib.h>
 using namespace std;
 class Tree_node{ //structure of a node in a tree.
     public:
@@ -189,18 +190,46 @@ void traverse(Tree_node *parent,Tree_node *parent1){
 		traverse(parent->right,parent1);
 	}
 	return;
-}	
-	static int no_of_struct(int n){
+	}
+	int *a;
+	void alloc(int count){
+		Tree::a=new int[count-1]();
+	}
+	int no_struct(int n){
 		if(n==0||n==1){
 			return 1;
 		}
-		int c = 0;
+		int s = 0,s1,s2;
 		for( int i = 0 ; i < n ; i++ ){
-			c = c + no_of_struct(i)*no_of_struct(n - 1- i);
+			if(a[i]!=0){
+				s1=a[i];
+			}
+			else{
+				a[i]=no_of_struct(i);
+				s1=a[i];
+			}
+			if(a[n-i-1]!=0){
+				s2=a[n-i-1];	
+			}
+			else{
+				a[n-i-1]=no_of_struct(n - 1- i);
+				s2=a[n-i-1];
+			}
+			s = s + s1*s2;	
 		}
-		return c;
+		return s;
 	}
-	static int count(Tree_node * parent){
+	int no_of_struct(int n){
+		if(n==0||n==1){
+			return 1;
+		}
+		int s=0;
+		for( int i = 0 ; i <n ; i++ ){
+			s=s+ no_of_struct(i)*no_of_struct(n-i-1);
+		}
+		return s;
+	}
+	int count(Tree_node * parent){
 		if(parent==NULL)
 			return 0;
 		int sum =0;
@@ -255,7 +284,10 @@ int main(){
 	else{
 		printf("Such Leaf does not exist");
 	}
-	printf("\nNo. of possible bst for the given tree is %d",Tree::no_of_struct(Tree::count(t2.root)));
+	printf("\nNo. of possible bst for the given tree is %d",t2.no_of_struct(t2.count(t2.root)+1));
+	printf("\n");
+	t2.alloc(t2.count(t2.root)+1);
+	printf("%d",t2.no_struct(t2.count(t2.root)+1));
 	return 0;
 	
 }
